@@ -334,15 +334,24 @@ void neopixel_init (void)
 #elif NEOPIXEL_SPI == 3
 
         __HAL_RCC_SPI3_CLK_ENABLE();
+        __HAL_RCC_GPIOC_CLK_ENABLE();
+        __HAL_RCC_GPIOD_CLK_ENABLE();
 
         GPIO_InitTypeDef GPIO_InitStruct = {
-            .Pin = GPIO_PIN_10|GPIO_PIN_12,
             .Mode = GPIO_MODE_AF_PP,
             .Pull = GPIO_NOPULL,
             .Speed = GPIO_SPEED_FREQ_HIGH,
-            .Alternate = GPIO_AF6_SPI3
         };
+
+        // SPI3_SCK = PC10 -> AF6
+        GPIO_InitStruct.Pin = GPIO_PIN_10;
+        GPIO_InitStruct.Alternate = GPIO_AF6_SPI3;
         HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+        // SPI3_MOSI = PD6 -> AF5 (PONTO CRÍTICO)
+        GPIO_InitStruct.Pin = GPIO_PIN_6;
+        GPIO_InitStruct.Alternate = GPIO_AF5_SPI3;
+        HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
         static const periph_pin_t sck = {
             .function = Output_SPICLK,
@@ -356,8 +365,8 @@ void neopixel_init (void)
         static const periph_pin_t sdo = {
             .function = Output_MOSI,
             .group = PinGroup_SPI,
-            .port = GPIOC,
-            .pin = 12,
+            .port = GPIOD,
+            .pin = 6,
             .mode = { .mask = PINMODE_NONE },
             .description = "Neopixels"
         };
