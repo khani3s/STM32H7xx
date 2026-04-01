@@ -104,8 +104,8 @@
 
 #define AUXOUTPUT3_PORT             GPIOC   // Spindle enable
 #define AUXOUTPUT3_PIN              5
-#define AUXOUTPUT4_PORT             GPIOB   // Spindle PWM
-#define AUXOUTPUT4_PIN              1
+//#define AUXOUTPUT4_PORT             GPIOB   // Spindle PWM
+//#define AUXOUTPUT4_PIN              1
 #define AUXOUTPUT5_PORT             GPIOB   // Spindle dir
 #define AUXOUTPUT5_PIN              0
 
@@ -134,6 +134,11 @@
 #define SPINDLE_DIRECTION_PORT      AUXOUTPUT5_PORT
 #define SPINDLE_DIRECTION_PIN       AUXOUTPUT5_PIN
 #endif
+
+#define AUXOUTPUT0_PWM_PORT         GPIOB   // PWM servo (M280) via spindle PWM
+#define AUXOUTPUT0_PWM_PIN          1
+#define AUXOUTPUT1_PWM_PORT         GPIOA
+#define AUXOUTPUT1_PWM_PIN          6
 
 // Define flood and mist coolant enable output pins.
 #if COOLANT_ENABLE & COOLANT_FLOOD
@@ -231,6 +236,7 @@
 
 #if RGB_LED_ENABLE
 #define NEOPIXEL_SPI                3       // GPIOD: MOSI = 6
+#define NEOPIXELS_NUM               23
 #endif
 
 #define CAN_PORT                    GPIOD
